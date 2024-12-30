@@ -1,4 +1,32 @@
 {% extends "layouts/base.html" %}
 {% block content %}
 <h1> TASKS </h1>
+<form action="{% url 'tasks' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.created_at }}</td>
+            <td>
+                <a href="{% url 'edit_task' task.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}
