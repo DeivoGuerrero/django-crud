@@ -1,4 +1,6 @@
-<h1>Sing Up</h1>
+{% extends "layouts/base.html" %}
+{% block content %}
+<h1> Sing Up </h1>
 
 {% if messages %}
     <ul>
@@ -13,3 +15,4 @@
     {{form.as_p}}
     <button type="submit">Sing Up</button>
 </form>
+{% endblock content %}
