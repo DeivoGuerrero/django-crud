@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Task
+from .models import Task, Usuario
 from .forms import TaskForm
 
 # Create your views here.
@@ -32,7 +32,7 @@ def singup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.create_user(form.cleaned_data['username'], password=form.cleaned_data['password1'])
+                user = Usuario.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['nombres'], form.cleaned_data['apellidos'], password=form.cleaned_data['password1'])
                 user.save()
                 login(request, user)
                 messages.success(request, 'Usuario creado correctamente')
