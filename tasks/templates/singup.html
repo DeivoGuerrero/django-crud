@@ -12,7 +12,8 @@
 
 <form action="/singup/" method="post">
     {% csrf_token %}
-    {{form.as_p}}
+    {{ form.as_p }}
     <button type="submit">Sing Up</button>
 </form>
+<script src="/static/js/togglePassword.js"></script>
 {% endblock content %}

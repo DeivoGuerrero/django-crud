@@ -1,9 +1,11 @@
 {% extends "layouts/base.html" %}
 {% block content %}
 <h1> Login </h1>
+
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<script src="/static/js/togglePassword.js"></script>
 {% endblock content %}

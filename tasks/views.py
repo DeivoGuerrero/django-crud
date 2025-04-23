@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Task, Usuario
-from .forms import TaskForm
+from .forms import TaskForm, UsuarioCreationForm
 
 # Create your views here.
 def home(request):
@@ -27,18 +27,14 @@ def login_view(request):
 
 def singup(request):
     if request.method == 'GET':
-        return render(request, 'singup.html', {'form': UserCreationForm()})
+        return render(request, 'singup.html', {'form': UsuarioCreationForm()})
     elif request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UsuarioCreationForm(request.POST)
         if form.is_valid():
-            try:
-                user = Usuario.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['nombres'], form.cleaned_data['apellidos'], password=form.cleaned_data['password1'])
-                user.save()
-                login(request, user)
-                messages.success(request, 'Usuario creado correctamente')
-                return redirect('tasks')
-            except:
-                messages.error(request, 'Error al crear el usuario')
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Usuario creado correctamente')
+            return redirect('tasks')
         else:
             messages.error(request, form.errors)
             return render(request, 'singup.html', {'form': form})
@@ -89,4 +85,4 @@ def delete_task(request, id):
     task.delete()
     messages.success(request, 'Tarea eliminada correctamente')
     return redirect('tasks')
-    
+
